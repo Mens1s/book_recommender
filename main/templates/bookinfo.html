@@ -1,0 +1,256 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="">
+
+  <title> Feane </title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- nice select  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+
+</head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+    <div class="bg-box">
+      <img src="{% static 'images/hero-bg.jpg' %}" alt="">
+    </div>
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="">
+            <span>
+              Feane
+            </span>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  mx-auto ">
+              <li class="nav-item">
+                <a class="nav-link" href="../index.html">Home </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../popular.html">Popular Books  </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="../recommend.html">Recommend a Book <span class="sr-only">(current)</span> </a>
+              </li>
+            </ul>
+            
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+  <!-- about section -->
+
+  <section class="about_section layout_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="img-box">
+                    <img src="{% static 'images/recommend-img.jpg' %}" alt="">
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="detail-box">
+                  <!-- Başlık Bölümü -->
+                  <div class="heading-container">
+                      <h2 class="book-title">{{ book.title }}</h2>
+                  </div>
+          
+                  <!-- Kategori Bölümü -->
+                  <div class="heading-container">
+                      <h3 class="book-category">{{ book.category }}</h3>
+                  </div>
+          
+                  <!-- Açıklama Bölümü -->
+                  <div class="heading-container">
+                      <p class="book-description">{{ book.description }}</p>
+                  </div>
+              </div>
+          </div>
+          
+        </div>
+
+        
+    </div>
+</section>
+
+  <!-- end about section -->
+
+  <!-- footer section -->
+  <footer class="footer_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 footer-col">
+          <div class="footer_contact">
+            <h4>
+              Contact Us
+            </h4>
+            <div class="contact_link_box">
+              <a href="">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>
+                  Location
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>
+                  Call at GTU
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>
+                  ahmet_yigit_02@hotmail.com
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <div class="footer_detail">
+            <a href="" class="footer-logo">
+              Mens1s
+            </a>
+            <p>
+              Developer..
+            </p>
+            <div class="footer_social">
+              <a href="">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-linkedin" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-pinterest" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+  </footer>
+  <!-- footer section -->
+
+  <!-- jQery -->
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <!-- bootstrap js -->
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- isotope js -->
+  <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+  <!-- custom js -->
+  <script src="{% static 'js/custom.js' %}"></script>
+  <!-- Google Map -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+  </script>
+  <!-- End Google Map -->
+  <script>
+    document.getElementById("findBooksBtn").addEventListener("click", function(event) {
+        event.preventDefault(); // Butonun varsayılan davranışını engelle
+
+        const bookTitle = document.getElementById("bookTitle").value; // Kitap ismini al
+
+        // Eğer kitap ismi boşsa uyarı göster
+        if (!bookTitle) {
+            alert("Please enter a book title.");
+            return;
+        }
+
+        // POST isteği gönderme
+        fetch("{% url 'get_books' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({
+                title: bookTitle  // Kitap ismini gönder
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+          const bookList = document.getElementById("bookList");
+          bookList.innerHTML = ''; // Listeyi temizle
+          bookList.style.display = 'block'; // Kitapları görünür yap
+          
+          if (data.books.length > 0) {
+              data.books.forEach(book => {
+                  // Kitap için bir liste elemanı oluşturuyoruz
+                  const bookLi = document.createElement("li");
+                  bookLi.classList.add("book-item");
+          
+                  // Kitap ismini liste elemanına ekliyoruz
+                  bookLi.textContent = book.title;
+          
+                  // Liste elemanını bookList'e ekliyoruz
+                  bookList.appendChild(bookLi);
+              });
+          } else {
+              const noBooks = document.createElement("div");
+              noBooks.classList.add("col-12");
+              noBooks.innerHTML = "<p>No books found matching your search.</p>";
+              bookList.appendChild(noBooks);
+          }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+  </script>
+
+
+
+</body>
+
+</html>
