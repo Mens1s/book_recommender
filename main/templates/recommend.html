@@ -21,8 +21,8 @@
 
   <!--owl slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-  <!-- nice select  -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+
   <!-- font awesome style -->
   <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
 
@@ -31,6 +31,33 @@
   <!-- responsive style -->
   <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
 
+  <style>
+    .book-card {
+      text-align: center;
+      background: #999999;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+    }
+
+    .book-card img {
+      max-width: 100%;
+      border-radius: 10px;
+      height: auto;
+    }
+
+    .book-card h4 {
+      font-size: 18px;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .book-card p {
+      font-size: 14px;
+      color: #6c757d;
+    }
+  </style>
 </head>
 
 <body class="sub_page">
@@ -39,14 +66,12 @@
     <div class="bg-box">
       <img src="{% static 'images/hero-bg.jpg' %}" alt="">
     </div>
-    <!-- header section strats -->
+    <!-- header section starts -->
     <header class="header_section">
       <div class="container">
-        <nav class="navbar navbar-expand-lg custom_nav-container ">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
           <a class="navbar-brand" href="">
-            <span>
-              Feane
-            </span>
+            <span>Feane</span>
           </a>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,18 +79,17 @@
           </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav  mx-auto ">
+            <ul class="navbar-nav mx-auto">
               <li class="nav-item">
-                <a class="nav-link" href="index.html">Home </a>
+                <a class="nav-link" href="index.html">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="popular.html">Popular Books  </a>
+                <a class="nav-link" href="popular.html">Popular Books</a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href="recommend.html">Recommend a Book <span class="sr-only">(current)</span> </a>
+                <a class="nav-link" href="recommend.html">Recommend a Book <span class="sr-only">(current)</span></a>
               </li>
             </ul>
-            
           </div>
         </nav>
       </div>
@@ -77,117 +101,99 @@
 
   <section class="about_section layout_padding">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="img-box">
-                    <img src="{% static 'images/recommend-img.jpg' %}" alt="">
-                </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="detail-box text-center">
+            <h2>Find Your Next Favorite Book!</h2>
+            <p>Enter a book title to get recommendations.</p>
+
+            <div class="input-group mb-3">
+              <input type="text" id="bookTitle" class="form-control" placeholder="Enter book title" />
+              <div class="input-group-append">
+                <button id="findBooksBtn" class="btn btn-primary">Find It!</button>
+              </div>
             </div>
-            <div class="col-md-6">
-                <div class="detail-box">
-                    <div class="heading_container">
-                        <h2>Let's Find Your Book!</h2>
-                    </div>
-                    <p>Enter a book title and we'll find it for you.</p>
-                    
-                    <!-- Kitap ismini almak için input alanı -->
-                    <input type="text" id="bookTitle" class="form-control" placeholder="Enter book title" />
-                    <button id="findBooksBtn" class="mt-4 btn btn-primary">Find It!</button>
-                    <div class="row grid" id="bookList" style="display: none;">
-                      <!-- Kitaplar burada dinamik olarak yüklenecek -->
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
 
-        
+      <div class="row">
+        <div class="col-md-12">
+          <div class="owl-carousel owl-theme" id="bookSlider" style="display: none;">
+            <!-- Books will be dynamically loaded here -->
+          </div>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-  <!-- end about section -->
-
-  <!-- footer section -->
-
-  <!-- jQery -->
+  <!-- jQuery -->
   <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-  <!-- popper js -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-  </script>
-  <!-- bootstrap js -->
+  <!-- Popper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <!-- Bootstrap JS -->
   <script src="{% static 'js/bootstrap.js' %}"></script>
-  <!-- owl slider -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
-  </script>
-  <!-- isotope js -->
-  <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
-  <!-- nice select -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
-  <!-- custom js -->
-  <script src="{% static 'js/custom.js' %}"></script>
-  <!-- Google Map -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
-  </script>
-  <!-- End Google Map -->
+  <!-- Owl Carousel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
   <script>
-    document.getElementById("findBooksBtn").addEventListener("click", function(event) {
-        event.preventDefault(); // Butonun varsayılan davranışını engelle
+    document.getElementById("findBooksBtn").addEventListener("click", function (event) {
+      event.preventDefault();
 
-        const bookTitle = document.getElementById("bookTitle").value; // Kitap ismini al
+      const bookTitle = document.getElementById("bookTitle").value.trim();
+      if (!bookTitle) {
+        alert("Please enter a book title.");
+        return;
+      }
 
-        // Eğer kitap ismi boşsa uyarı göster
-        if (!bookTitle) {
-            alert("Please enter a book title.");
-            return;
-        }
+      fetch("{% url 'get_books' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: JSON.stringify({ title: bookTitle }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const bookSlider = $("#bookSlider");
+          bookSlider.html(""); // Clear slider content
 
-        // POST isteği gönderme
-        fetch("{% url 'get_books' %}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}"
-            },
-            body: JSON.stringify({
-                title: bookTitle  // Kitap ismini gönder
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-          const bookList = document.getElementById("bookList");
-          bookList.innerHTML = ''; // Listeyi temizle
-          bookList.style.display = 'block'; // Kitapları görünür yap
-          
           if (data.books.length > 0) {
-              data.books.forEach(book => {
-                const bookLi = document.createElement("li");
-                bookLi.classList.add("book-item");
-                
-                // Kitap ismine tıklanınca yeni sekmede açılacak bağlantıyı oluşturuyoruz
-                const bookLink = document.createElement("a");
-                bookLink.href = `/get_book_info/${encodeURIComponent(book.title)}`;  // URL'yi dinamik olarak oluşturuyoruz
-                bookLink.target = "_blank";  // Yeni sekmede açılması için
-                bookLink.textContent = book.title;  // Kitap başlığını linkin metni olarak ayarlıyoruz
-                
-                // Kitap linkini liste elemanına ekliyoruz
-                bookLi.appendChild(bookLink);
-                
-                // Liste elemanını bookList'e ekliyoruz
-                bookList.appendChild(bookLi);
-              });
+            data.books.forEach((book) => {
+              const bookCard = `
+                <div class="item">
+                  <div class="book-card">
+                    <img src="static/${book.coverImage}" alt="${book.title}" />
+                    <h4>${book.title}</h4>
+                    <p><strong>Author:</strong> ${book.author}</p>
+                    <p><strong>Rating:</strong> ${book.rating}</p>
+                    <p>${book.description}</p>
+                  </div>
+                </div>`;
+
+              bookSlider.append(bookCard);
+            });
+
+            bookSlider.show();
+            bookSlider.owlCarousel({
+              loop: true,
+              margin: 10,
+              nav: true,
+              responsive: {
+                0: { items: 1 },
+                600: { items: 2 },
+                1000: { items: 3 },
+              },
+            });
           } else {
-              const noBooks = document.createElement("div");
-              noBooks.classList.add("col-12");
-              noBooks.innerHTML = "<p>No books found matching your search.</p>";
-              bookList.appendChild(noBooks);
+            alert("No books found matching your search.");
+            bookSlider.hide();
           }
         })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        .catch((error) => console.error("Error:", error));
     });
   </script>
-
-
 
 </body>
 

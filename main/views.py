@@ -52,15 +52,31 @@ def get_books(request):
         
         # Kitapları başlığa göre filtrele
         books = AI.recommend(title)
-        
+
+
         # Kitapları JSON formatında döndür
         book_data = []
+        
+        i = 1
         for book in books:
-            book_data.append({
-                'title': book,
-                'description': "book.description",
-                'category': "book.category",
-            })
+            resp = AI.getBookInfoForRecommendedBook(book)
+            
+            updatedBook = {
+                'title': resp.get('Title', 'No Title'), 
+                'description': resp.get('Description', 'No Description'), 
+                'category': resp.get('Category', 'No Category'), 
+                'coverImage': "images/h"+str(i)+".jpg",
+                'author': resp.get('Author', 'No Author'),
+                'rating': resp.get('Rating', 'No Rating')
+            }
+            
+            if "harry" not in updatedBook['title'].lower():
+                updatedBook['coverImage'] = "images/s"+str(i)+".jpeg"
+            
+            book_data.append(updatedBook)
+            i += 1
+            if i == 5:
+                i = 1
         
         return JsonResponse({'books': book_data})
 

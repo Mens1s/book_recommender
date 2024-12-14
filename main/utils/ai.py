@@ -339,3 +339,53 @@ class AI:
         else:
             print(f"Error: {response.status_code}, {response.text}")
             return "Error"
+    
+    @staticmethod
+    def getBookInfoForRecommendedBook(bookTitle):
+        data = {
+            "contents": [
+                {
+                    "parts": [
+                        {
+                            "text": "Can you give me information about "+bookTitle+" titled book.Your results should be like these Do not change the response type give me always like. do not add your speaks. give me information only. Description may contain author name minimum lengh 60 max lengh 220. CoverImage has to be URL. I will parse your data so i do not want to take any error.::  Title:XXX, Description:XXX, Category:XXX, CoverImage:XXX, Author:XXX, Rating:XXX"
+                        }
+                    ]
+                }
+            ]
+        }
+
+        # İstek gönderme
+        response = requests.post(
+            AI.url,
+            headers={"Content-Type": "application/json"},
+            data=json.dumps(data)
+        )
+
+        # Yanıtı yazdırma
+        if response.status_code == 200:
+            response_data = response.json()
+            AI.isGeminiWorked = True
+
+            # Extract the text content from response
+            for candidate in response_data.get('candidates', []):
+                content = candidate.get('content', {})
+                for part in content.get('parts', []):
+                    text = part.get('text', '')
+                    print(text)
+                    try:
+                        title = str(text).split("Title:")[1].split("Description:")[0].split(',')[0]
+                        description = str(text).split("Description:")[1].split("Category:")[0]
+                        category = str(text).split("Category:")[1].split("CoverImage:")[1]
+                        coverImage = str(text).split("CoverImage:")[1].split("Author:")[0]
+                        author = str(text).split("Author:")[1].split("Rating:")[0]
+                        rating = str(text).split("Rating:")[1]
+                        book = {"Title": title, "Description": description, "Category":category, "CoverImage":coverImage, "Author":author, "Rating":rating}
+                    
+                        return book
+                
+                    except:
+                        return {"Title": "No Title", "Description": "No Description", "Category": "No Category", "CoverImage": "No Cover Image", "Author": "No Author", "Rating": "No Rating"}
+
+        else:
+            print(f"Error: {response.status_code}, {response.text}")
+            return "Error"
