@@ -6,6 +6,19 @@ import random
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt 
 
+class Statik:
+    static_var = "ahmet"  # Statik değişken
+
+    @classmethod
+    def get_static_var(cls):
+        """Statik değişkenin değerini döndürür."""
+        return cls.static_var
+
+    @classmethod
+    def set_static_var(cls, value):
+        """Statik değişkenin değerini değiştirir."""
+        cls.static_var = value
+
 def main(request):
     AI.createRecommendationInstance()
     response = AI.getMostPopularBooksByCategories()  
@@ -27,6 +40,16 @@ def main(request):
 
     return render(request, "index.html", {'books': items})
 
+def scanbook(request):
+    return render(request, "scanbook.html")
+
+def recommend_book(request):
+    return JsonResponse({'book': Statik.get_static_var()})
+
+def esp(request):
+    if request.method == "POST":
+        name = request.POST.get('name', '')
+        Statik.set_static_var(name)
 
 def popular(request):
     response = AI.getMostPopularBooksByCategories()  
