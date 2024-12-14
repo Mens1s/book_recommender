@@ -34,7 +34,7 @@
   <style>
     .book-card {
       text-align: center;
-      background: #999999;
+      background: rgb(233, 223, 223);
       border-radius: 10px;
       padding: 20px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -63,6 +63,11 @@
       max-height: 300px; /* Maksimum yükseklik */
       width: auto; /* Genişlik, yüksekliğe oranla otomatik ayarlanacak */
       height: auto; /* Yükseklik, genişliğe oranla otomatik ayarlanacak */
+    }
+
+    #loadingSpinner {
+      text-align: center;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -120,6 +125,13 @@
                 <button id="findBooksBtn" class="btn btn-primary">Find It!</button>
               </div>
             </div>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" style="display: none;">
+              <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -148,10 +160,16 @@
       event.preventDefault();
 
       const bookTitle = document.getElementById("bookTitle").value.trim();
+      const loadingSpinner = document.getElementById("loadingSpinner");
+      const bookSlider = $("#bookSlider");
+
       if (!bookTitle) {
         alert("Please enter a book title.");
         return;
       }
+
+      // Show loading spinner
+      loadingSpinner.style.display = "block";
 
       fetch("{% url 'get_books' %}", {
         method: "POST",
@@ -163,13 +181,14 @@
       })
         .then((response) => response.json())
         .then((data) => {
-          const bookSlider = $("#bookSlider");
+          // Hide loading spinner
+          loadingSpinner.style.display = "none";
           bookSlider.html(""); // Clear slider content
-
+        
           if (data.books.length > 0) {
             data.books.forEach((book) => {
               const bookCard = `
-                <div class="item">
+                <div class="item" onclick="window.location.href='/get_book_info/${encodeURIComponent(book.title)}'">
                   <div class="book-card">
                     <img src="static/${book.coverImage}" alt="${book.title}" class="book-cover" />
                     <h4>${book.title}</h4>
@@ -178,10 +197,10 @@
                     <p>${book.description}</p>
                   </div>
                 </div>`;
-
+        
               bookSlider.append(bookCard);
             });
-
+        
             bookSlider.show();
             bookSlider.owlCarousel({
               loop: true,
@@ -197,8 +216,11 @@
             alert("No books found matching your search.");
             bookSlider.hide();
           }
-        })
-        .catch((error) => console.error("Error:", error));
+        })        
+        .catch((error) => {
+          console.error("Error:", error);
+          loadingSpinner.style.display = "none"; // Hide spinner on error
+        });
     });
   </script>
 

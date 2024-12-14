@@ -7,16 +7,14 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt 
 
 class Statik:
-    static_var = "ahmet"  # Statik değişken
+    static_var = "ahmet"
 
     @classmethod
     def get_static_var(cls):
-        """Statik değişkenin değerini döndürür."""
         return cls.static_var
 
     @classmethod
     def set_static_var(cls, value):
-        """Statik değişkenin değerini değiştirir."""
         cls.static_var = value
 
 def main(request):
@@ -44,12 +42,19 @@ def scanbook(request):
     return render(request, "scanbook.html")
 
 def recommend_book(request):
-    return JsonResponse({'book': Statik.get_static_var()})
+    res = {'book': Statik.get_static_var()}
+    Statik.set_static_var("ahmet")
+    return JsonResponse(res)
 
+@csrf_exempt
 def esp(request):
-    if request.method == "POST":
-        name = request.POST.get('name', '')
+    if request.method == "GET":
+        print(request.GET)
+        name = request.GET.get('name', 'ahmet')
+        print(name)
         Statik.set_static_var(name)
+    
+    return JsonResponse({'name': Statik.get_static_var()})
 
 def popular(request):
     response = AI.getMostPopularBooksByCategories()  
@@ -73,11 +78,7 @@ def get_books(request):
         data = json.loads(request.body)  # POST isteğinden gelen veriyi al
         title = data.get('title', '')  # Kitap başlığını al
         
-        # Kitapları başlığa göre filtrele
         books = AI.recommend(title)
-
-
-        # Kitapları JSON formatında döndür
         book_data = []
         
         i = 1
@@ -92,6 +93,9 @@ def get_books(request):
                 'author': resp.get('Author', 'No Author'),
                 'rating': resp.get('Rating', 'No Rating')
             }
+
+            if len(updatedBook['description']) > 200:
+                updatedBook['description'] = updatedBook['description'][:200] + "..."
             
             if "harry" not in updatedBook['title'].lower():
                 updatedBook['coverImage'] = "images/s"+str(i)+".jpeg"
@@ -108,7 +112,7 @@ def get_books(request):
     return JsonResponse({'error': 'Invalid method'}, status=400)
 
 def get_book_info(request, book_name):
-    resp = AI.getBookInfo(book_name)
+    resp = AI.getBookInfoForRecommendedBook(book_name)
 
     book = {
                 'title': resp.get('Title', 'No Title'), 

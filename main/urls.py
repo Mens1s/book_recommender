@@ -9,7 +9,7 @@ urlpatterns = [
     path("index.html", views.main, name = "main"),
     path("scanbook.html", views.scanbook, name = "scanbook"),
     path("recommended_book", views.recommend_book, name = "recommend_book"),
-    path("esp", views.esp, name = "esp"),
+    path("api/esp/", views.esp, name = "esp"),
     path("", views.main, name = "main"),
     path('api/recommend/', views.recommendApi, name='recommend_api')
 ]
