@@ -31,6 +31,59 @@
   <!-- responsive style -->
   <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
 
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+
+  <!-- font awesome style -->
+  <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+
+  <style>
+    .book-card {
+      text-align: center;
+      background: rgb(233, 223, 223);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+    }
+
+    .book-card img {
+      max-width: 100%;
+      border-radius: 10px;
+      height: auto;
+    }
+
+    .book-card h4 {
+      font-size: 18px;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .book-card p {
+      font-size: 14px;
+      color: #6c757d;
+    }
+
+    .book-cover {
+      max-width: 200px; /* Maksimum genişlik */
+      max-height: 300px; /* Maksimum yükseklik */
+      width: auto; /* Genişlik, yüksekliğe oranla otomatik ayarlanacak */
+      height: auto; /* Yükseklik, genişliğe oranla otomatik ayarlanacak */
+    }
+
+    #loadingSpinner {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 
 <body class="sub_page">
@@ -103,14 +156,26 @@
                       <p class="book-description">{{ book.description }}</p>
                   </div>
               </div>
+              <div class="input-group mb-3">
+                  <button id="findBooksBtn" class="btn btn-primary">Get Recommended Books!</button>
+              </div>
+              <div id="loadingSpinner" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
           </div>
           
         </div>
-
-        
+        <div class="row">
+          <div class="col-md-12">
+            <div class="owl-carousel owl-theme" id="bookSlider" style="display: none;">
+              <!-- Books will be dynamically loaded here -->
+            </div>
+          </div>
+        </div>
     </div>
 </section>
-
   <!-- end about section -->
 
   <!-- footer section -->
@@ -179,12 +244,10 @@
   <!-- footer section -->
 
   <!-- jQery -->
-  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   <!-- popper js -->
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
   </script>
   <!-- bootstrap js -->
-  <script src="{% static 'js/bootstrap.js' %}"></script>
   <!-- owl slider -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
   </script>
@@ -193,65 +256,86 @@
   <!-- nice select -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
   <!-- custom js -->
-  <script src="{% static 'js/custom.js' %}"></script>
   <!-- Google Map -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
   </script>
-  <!-- End Google Map -->
+    <!-- End Google Map -->
+  <!-- jQuery -->
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <!-- Popper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+  <!-- Owl Carousel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
   <script>
-    document.getElementById("findBooksBtn").addEventListener("click", function(event) {
-        event.preventDefault(); // Butonun varsayılan davranışını engelle
+    document.getElementById("findBooksBtn").addEventListener("click", function (event) {
+      event.preventDefault();
 
-        const bookTitle = document.getElementById("bookTitle").value; // Kitap ismini al
+      const bookTitle = "{{ book.title }}";
+      const loadingSpinner = document.getElementById("loadingSpinner");
+      const bookSlider = $("#bookSlider");
 
-        // Eğer kitap ismi boşsa uyarı göster
-        if (!bookTitle) {
-            alert("Please enter a book title.");
-            return;
-        }
+      if (!bookTitle) {
+        alert("Please enter a book title.");
+        return;
+      }
 
-        // POST isteği gönderme
-        fetch("{% url 'get_books' %}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}"
-            },
-            body: JSON.stringify({
-                title: bookTitle  // Kitap ismini gönder
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-          const bookList = document.getElementById("bookList");
-          bookList.innerHTML = ''; // Listeyi temizle
-          bookList.style.display = 'block'; // Kitapları görünür yap
-          
+      // Show loading spinner
+      loadingSpinner.style.display = "block";
+
+      fetch("{% url 'get_books' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: JSON.stringify({ title: bookTitle }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Hide loading spinner
+          loadingSpinner.style.display = "none";
+          bookSlider.html(""); // Clear slider content
+        
           if (data.books.length > 0) {
-              data.books.forEach(book => {
-                  // Kitap için bir liste elemanı oluşturuyoruz
-                  const bookLi = document.createElement("li");
-                  bookLi.classList.add("book-item");
-          
-                  // Kitap ismini liste elemanına ekliyoruz
-                  bookLi.textContent = book.title;
-          
-                  // Liste elemanını bookList'e ekliyoruz
-                  bookList.appendChild(bookLi);
-              });
+            data.books.forEach((book) => {
+              const bookCard = `
+                <div class="item" onclick="window.location.href='/get_book_info/${encodeURIComponent(book.title)}'">
+                  <div class="book-card">
+                    <h4>${book.title}</h4>
+                    <p><strong>Author:</strong> ${book.author}</p>
+                    <p><strong>Rating:</strong> ${book.rating}</p>
+                    <p>${book.description}</p>
+                  </div>
+                </div>`;
+        
+              bookSlider.append(bookCard);
+            });
+        
+            bookSlider.show();
+            bookSlider.owlCarousel({
+              loop: true,
+              margin: 10,
+              nav: true,
+              responsive: {
+                0: { items: 1 },
+                600: { items: 2 },
+                1000: { items: 3 },
+              },
+            });
           } else {
-              const noBooks = document.createElement("div");
-              noBooks.classList.add("col-12");
-              noBooks.innerHTML = "<p>No books found matching your search.</p>";
-              bookList.appendChild(noBooks);
+            alert("No books found matching your search.");
+            bookSlider.hide();
           }
-        })
-        .catch(error => {
-            console.error('Error:', error);
+        })        
+        .catch((error) => {
+          console.error("Error:", error);
+          loadingSpinner.style.display = "none"; // Hide spinner on error
         });
     });
   </script>
-
 
 
 </body>

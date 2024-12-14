@@ -106,7 +106,7 @@ def get_books(request):
             i += 1
             if i == 5:
                 i = 1
-        
+        print(len(book_data))
         return JsonResponse({'books': book_data})
 
     return JsonResponse({'error': 'Invalid method'}, status=400)
@@ -117,7 +117,7 @@ def get_book_info(request, book_name):
     book = {
                 'title': resp.get('Title', 'No Title'), 
                 'description': resp.get('Description', 'No Description'), 
-                'category': resp.get('Category', 'No Category'), 
+                'category': resp.get('Category', 'No Category') +"    "+ resp.get('Rating', 'No Rating'), 
             }
     return render(request, 'bookinfo.html', {'book': book})
 

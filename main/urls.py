@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
     path('get_books/', views.get_books, name='get_books'),
-    path('get_book_info/<str:book_name>/', views.get_book_info, name='get_books'),
+    path('get_book_info/<str:book_name>/', views.get_book_info, name='get_book_specific'),
+    path('get_book_info/get_books/', views.get_books, name='get_books_spesific'),
     path("popular.html", views.popular, name = "popular"),
     path("recommend.html", views.recommend, name = "recommend"),
     path("index.html", views.main, name = "main"),

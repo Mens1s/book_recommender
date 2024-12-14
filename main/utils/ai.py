@@ -328,7 +328,6 @@ class AI:
                 content = candidate.get('content', {})
                 for part in content.get('parts', []):
                     text = part.get('text', '')
-                    print(text)
                     title = str(text).split("Title:")[1].split("Description:")[0].split(',')[0]
                     description = str(text).split("Description:")[1].split("Category:")[0]
                     category = str(text).split("Category:")[1]
@@ -347,7 +346,7 @@ class AI:
                 {
                     "parts": [
                         {
-                            "text": "Can you give me information about "+bookTitle+" titled book.Your results should be like these Do not change the response type give me always like. do not add your speaks. give me information only. Description may contain author name minimum lengh 60 max lengh 220. CoverImage has to be URL. I will parse your data so i do not want to take any error. If you don't have answer give random datas same format.::  Title:XXX, Description:XXX, Category:XXX, Author:XXX, Rating:XXX"
+                            "text": "Can you give me information about "+bookTitle+" titled book.Your results should be like these Do not change the response type give me always like. do not add your speaks. give me information only. Description may contain author name minimum lengh 60 max lengh 220. I will parse your data so i do not want to take any error. If you don't have answer give random datas same format.::  Title:XXX, Description:XXX, Category:XXX, Author:XXX, Rating:XXX"
                         }
                     ]
                 }
@@ -371,15 +370,16 @@ class AI:
                 content = candidate.get('content', {})
                 for part in content.get('parts', []):
                     text = part.get('text', '')
-                    print(text)
+                    print (text)
                     try:
                         title = str(text).split("Title:")[1].split("Description:")[0].split(',')[0]
                         description = str(text).split("Description:")[1].split("Category:")[0]
-                        category = str(text).split("Category:")[1].split("Author:")[1]
+                        category = str(text).split("Category:")[1].split("Author:")[0]
                         author = str(text).split("Author:")[1].split("Rating:")[0]
-                        rating = str(text).split("Rating:")[1]
+                        rating = str(text).split("Rating:")[1].split("\n")[0]
                         book = {"Title": title, "Description": description, "Category":category, "Author":author, "Rating":rating}
-                    
+
+                        print(book)
                         return book
                 
                     except:
