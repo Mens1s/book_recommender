@@ -73,6 +73,8 @@ def get_books(request):
             if "harry" not in updatedBook['title'].lower():
                 updatedBook['coverImage'] = "images/s"+str(i)+".jpeg"
             
+            if updatedBook['title'] == "No Title":
+                continue
             book_data.append(updatedBook)
             i += 1
             if i == 5:

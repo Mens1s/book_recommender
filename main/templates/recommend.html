@@ -57,6 +57,13 @@
       font-size: 14px;
       color: #6c757d;
     }
+
+    .book-cover {
+      max-width: 200px; /* Maksimum genişlik */
+      max-height: 300px; /* Maksimum yükseklik */
+      width: auto; /* Genişlik, yüksekliğe oranla otomatik ayarlanacak */
+      height: auto; /* Yükseklik, genişliğe oranla otomatik ayarlanacak */
+    }
   </style>
 </head>
 
@@ -164,7 +171,7 @@
               const bookCard = `
                 <div class="item">
                   <div class="book-card">
-                    <img src="static/${book.coverImage}" alt="${book.title}" />
+                    <img src="static/${book.coverImage}" alt="${book.title}" class="book-cover" />
                     <h4>${book.title}</h4>
                     <p><strong>Author:</strong> ${book.author}</p>
                     <p><strong>Rating:</strong> ${book.rating}</p>
