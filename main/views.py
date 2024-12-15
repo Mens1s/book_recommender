@@ -121,6 +121,18 @@ def get_book_info(request, book_name):
             }
     return render(request, 'bookinfo.html', {'book': book})
 
+def getBookNameFromRfid(id):
+    # This parts gets book from db
+    # But for now we will use a static list
+    # Because there is no enough rfid tags
+    bookList = {
+        "1": "Harry Potter and the Philosopher's Stone",
+        "2": "Harry Potter and the Chamber of Secrets",
+        "3": "1984",
+        "4":"The Great Gatsby",
+    }
+    return bookList.get(id, "No Book Found")
+
 def recommend(request):
 
     return render(request, "recommend.html")
@@ -128,8 +140,8 @@ def recommend(request):
 @csrf_exempt
 def recommendApi(request):
     if request.method == "GET":
-        name = request.GET.get('name', '')
-    
+        id = request.GET.get('id', '')
+        name = getBookNameFromRfid(id)
         books = AI.recommend(name) 
         book_data = []
         for book in books:
